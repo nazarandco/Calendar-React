@@ -1,6 +1,7 @@
 .event {
   position: absolute;
-  width: 80%;
+  overflow: visible;
+  width: 100%;
   background-color: cornflowerblue;
   z-index: 1;
   border-radius: 8px;
@@ -16,12 +17,39 @@
   }
 
   &:hover {
-    font-weight: bold;
-    background-color: red;
+    background-color: rgb(92, 136, 216);
   }
 }
 
 .delete-event-btn {
+  display: flex;
+  position: relative;
+  left: 150px;
+  bottom: 70px;
+  z-index: 4;
   cursor: pointer;
   border: none;
+  border-radius: 50%;
+  width: 80%;
+  height: 50px;
+  background-color: #ffffff;
+  opacity: 0.8;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+
+  &:hover {
+    background-color: red;
+    opacity: 1;
+  }
+
+  &__text {
+    color: #000000;
+    font-weight: bold;
+    margin: auto;
+
+    :hover > & {
+      color: #ffffff;
+      opacity: 1;
+    }
+  }
 }

@@ -45,3 +45,10 @@ export const months = [
   "November",
   "December",
 ];
+
+export const getMonth = (months) => {
+  const dateCopy = new Date();
+  const dayOfWeek = dateCopy.getMonth();
+
+  return `${months[dayOfWeek]} — ${months[dayOfWeek + 1]}`;
+}

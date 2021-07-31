@@ -1,28 +1,54 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 
-import Event from "../event/Event";
-import { formatMins } from "../../../src/utils/dateUtils.js";
+import Event from '../event/Event';
+import { formatMins } from '../../../src/utils/dateUtils.js';
 
-const Hour = ({ dataHour, hourEvents }) => {
+const Hour = ({ dataHour, hourEvents, dataDay, deleteEvent }) => {
+  const [currentTimeLine, setCurrentTimeLine] = useState(null);
+
+  const nowDay = new Date();
+  const currentHour = new Date().getHours();
+  const currentMin = new Date().getMinutes();
+  const styles = {
+    marginTop: currentMin,
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTimeLine(new Date());
+    }, 60000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="calendar__time-slot" data-time={dataHour + 1}>
-      {/* if no events in the current hour nothing will render here */}
+    <div className='calendar__time-slot' data-time={dataHour + 1}>
+      {dataDay === nowDay.getDate() &&
+      dataHour === currentHour &&
+      new Date().getMinutes() ? (
+        <div style={styles} className='red-line'>
+          <div className='red-line__circle'></div>
+        </div>
+      ) : null}
       {hourEvents.map(({ id, dateFrom, dateTo, title }) => {
-        const eventStart = `${dateFrom.getHours()}:${formatMins(
-          dateFrom.getMinutes()
+        const eventStart = `${new Date(dateFrom).getHours()}:${formatMins(
+          new Date(dateFrom).getMinutes()
         )}`;
-        const eventEnd = `${dateTo.getHours()}:${formatMins(
-          dateTo.getMinutes()
+        const eventEnd = `${new Date(dateTo).getHours()}:${formatMins(
+          new Date(dateTo).getMinutes()
         )}`;
 
         return (
           <Event
             key={id}
-            //calculating event height = duration of event in minutes
-            height={(dateTo.getTime() - dateFrom.getTime()) / (1000 * 60)}
-            marginTop={dateFrom.getMinutes()}
+            id={id}
+            height={(dateTo - dateFrom) / (1000 * 60)}
+            marginTop={new Date(dateFrom).getMinutes()}
             time={`${eventStart} - ${eventEnd}`}
             title={title}
+            deleteEvent={deleteEvent}
           />
         );
       })}
