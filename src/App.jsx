@@ -92,6 +92,7 @@ const App = () => {
     } else if (midnightValidation) {
       alert(`Let's start at 00:15!`);
     } else {
+      setEvents([...events, eventToPost]);
       postNewEvent(eventToPost).then(() => pageUpdater());
     }
   };
