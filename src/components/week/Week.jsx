@@ -1,9 +1,17 @@
 import React from 'react';
 import Day from '../day/Day';
+import PropTypes from 'prop-types';
 
 import './week.scss';
 
-const Week = ({ weekDates, events, deleteEvent }) => {
+const Week = ({
+  weekDates,
+  events,
+  deleteEvent,
+  postNewEvent,
+  setReRender,
+  updateEventsApp,
+}) => {
   return (
     <div className='calendar__week'>
       {weekDates.map((dayStart) => {
@@ -22,11 +30,24 @@ const Week = ({ weekDates, events, deleteEvent }) => {
             dataDay={dayStart.getDate()}
             dayEvents={dayEvents}
             deleteEvent={deleteEvent}
+            postNewEvent={postNewEvent}
+            setReRender={setReRender}
+            updateEventsApp={updateEventsApp}
           />
         );
       })}
     </div>
   );
+};
+
+Week.propTypes = {
+  events: PropTypes.object,
+  weekDates: PropTypes.array.isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+};
+
+Week.defaultProps = {
+  events: [],
 };
 
 export default Week;

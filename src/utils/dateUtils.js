@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getWeekStartDate = (date) => {
   const dateCopy = new Date(date);
   const dayOfWeek = dateCopy.getDay();
@@ -20,35 +22,64 @@ export const generateWeekRange = (startDate) => {
 };
 
 export const getDateTime = (date, time) => {
-  const [hours, minutes] = time.split(":");
+  const [hours, minutes] = time.split(':');
   const withHours = new Date(new Date(date).setHours(Number(hours)));
   const withMinutes = new Date(new Date(withHours).setMinutes(Number(minutes)));
   return withMinutes;
 };
 
-export const formatMins = (mins) => {
-  return mins < 10 ? `0${mins}` : mins;
-};
+export const formatMins = (mins) => (mins < 10 ? `0${mins}` : mins);
 
-export const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-export const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
+export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-export const getMonth = (months) => {
-  const dateCopy = new Date();
+export const getCurrentMonth = (monthNames, dateCopy) => {
   const dayOfWeek = dateCopy.getMonth();
 
-  return `${months[dayOfWeek]} — ${months[dayOfWeek + 1]}`;
-}
+  return `${monthNames[dayOfWeek]} — ${monthNames[dayOfWeek + 1]}`;
+};
+
+export const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+  'January',
+];
+
+export const getNextWeek = (weekStartDate) =>
+  new Date(
+    weekStartDate.getFullYear(),
+    weekStartDate.getMonth(),
+    weekStartDate.getDate() + 7
+  );
+
+export const getPreviousWeek = (weekStartDate) =>
+  new Date(
+    weekStartDate.getFullYear(),
+    weekStartDate.getMonth(),
+    weekStartDate.getDate() - 7
+  );
+
+export const timeFromFixed = (time) => {
+  const timing = parseInt(time);
+  if (timing >= 0 && timing <= 14) {
+    return '00';
+  } else if (timing >= 15 && timing <= 29) {
+    return '15';
+  } else if (timing >= 30 && timing <= 44) {
+    return '30';
+  } else if (timing >= 45 && timing <= 60) {
+    return '45';
+  }
+};
+
+export const getDefaultTime = (date, format) => moment(date).format(format);
+export const currentDate = new Date();

@@ -1,12 +1,14 @@
 .event {
   position: absolute;
   overflow: visible;
+  cursor: pointer;
+  z-index: 2;
   width: 100%;
-  background-color: cornflowerblue;
-  z-index: 1;
+  background-color: #0059ce;
+  opacity: 0.6;
   border-radius: 8px;
   padding: 8px;
-  color: #fff;
+  color: #ffffff;
 
   &__title {
     width: 100%;
@@ -16,17 +18,19 @@
     margin-bottom: 8px;
   }
 
-  &:hover {
-    background-color: rgb(92, 136, 216);
+  :hover > & {
+    background-color: #2d88ff;
+    opacity: 1;
+    z-index: 6;
   }
 }
 
 .delete-event-btn {
   display: flex;
   position: relative;
-  left: 150px;
-  bottom: 70px;
-  z-index: 4;
+  left: 75px;
+  top: -5px;
+  z-index: 6;
   cursor: pointer;
   border: none;
   border-radius: 50%;

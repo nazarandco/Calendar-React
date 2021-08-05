@@ -91,7 +91,6 @@
 
     &-current {
       color: #0059ce;
-      opacity: 1;
     }
   }
 
@@ -104,10 +103,10 @@
       justify-content: center;
       align-items: center;
       margin: 10px 0 -10px 0;
-      border: 10px solid #0059ce;
       background-color: #0059ce;
       color: #ffffff;
-      opacity: 1;
+      height: 50px;
+      width: 50px;
       border-radius: 50%;
     }
   }
@@ -115,16 +114,18 @@
 
 .red-line {
   display: flex;
-  height: 5px;
+  height: 3px;
   justify-content: start;
+  align-items: center;
   position: absolute;
   width: 100%;
   background: linear-gradient(to right, #ff0000, #ffffff);
   z-index: 5;
 
   &__circle {
-    height: 5px;
-    width: 5px;
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
     background-color: #ff0000;
     z-index: 5;
     animation: 3s linear 1s infinite running move_line;

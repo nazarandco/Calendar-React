@@ -1,11 +1,26 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import './modal.scss';
+import {
+  timeFromFixed,
+  getDefaultTime,
+  currentDate,
+} from '../../../src/utils/dateUtils.js';
 
 const Modal = ({ handleModalClose, postNewEvent }) => {
-  const [date, setDate] = useState('');
-  const [timeFrom, setTimeFrom] = useState('');
-  const [timeTo, setTimeTo] = useState('');
+  const [date, setDate] = useState({
+    date: getDefaultTime(currentDate, 'YYYY-MM-DD'),
+  });
+  const [timeFrom, setTimeFrom] = useState({
+    timeFrom: getDefaultTime(currentDate, 'HH:mm'),
+  });
+  const [timeTo, setTimeTo] = useState({
+    timeTo: getDefaultTime(
+      currentDate.setMinutes(currentDate.getMinutes() + 15),
+      'HH:mm'
+    ),
+  });
   const [title, setTitle] = useState('');
 
   const eventObj = Object.assign({}, date, timeFrom, timeTo, title);
@@ -15,12 +30,12 @@ const Modal = ({ handleModalClose, postNewEvent }) => {
 
     const df = new Date(date);
     const dateFrom = new Date(
-      df.setHours(timeFrom.slice(0, 2), timeFrom.slice(3, 5), 0)
+      df.setHours(timeFrom.slice(0, 2), timeFromFixed(timeFrom.slice(3, 5)), 0)
     ).getTime();
 
     const dt = new Date(date);
     const dateTo = new Date(
-      dt.setHours(timeTo.slice(0, 2), timeTo.slice(3, 5), 0)
+      dt.setHours(timeTo.slice(0, 2), timeFromFixed(timeTo.slice(3, 5)), 0)
     ).getTime();
 
     event.preventDefault();
@@ -35,7 +50,7 @@ const Modal = ({ handleModalClose, postNewEvent }) => {
         <div className='create-event'>
           <button
             className='create-event__close-btn'
-            onClick={handleModalClose}
+            onClick={() => handleModalClose()}
           >
             +
           </button>
@@ -50,6 +65,7 @@ const Modal = ({ handleModalClose, postNewEvent }) => {
                 const { name, value } = e.target;
                 setTitle({ [name]: value });
               }}
+              placeholder={'Print your title, please...'}
             />
             <div className='event-form__time'>
               <input
@@ -97,6 +113,11 @@ const Modal = ({ handleModalClose, postNewEvent }) => {
       </div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  handleModalClose: PropTypes.func.isRequired,
+  postNewEvent: PropTypes.func.isRequired,
 };
 
 export default Modal;

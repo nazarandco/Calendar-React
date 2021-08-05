@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
+import { formatMins } from '../../../src/utils/dateUtils.js';
 
 import './event.scss';
 
-const Event = ({ height, marginTop, title, time, deleteEvent, id }) => {
+const Event = ({
+  height,
+  marginTop,
+  title,
+  time,
+  deleteEvent,
+  id,
+  updateEventsApp,
+}) => {
   const [isDeleteWindow, setDeleteWindow] = useState(false);
   const [isDeleteEvent, setDeleteEvent] = useState(false);
 
@@ -11,7 +22,7 @@ const Event = ({ height, marginTop, title, time, deleteEvent, id }) => {
   };
 
   const handleDelete = () => {
-    setDeleteEvent(true);
+    return setDeleteEvent(true);
   };
 
   const eventStyle = {
@@ -30,6 +41,7 @@ const Event = ({ height, marginTop, title, time, deleteEvent, id }) => {
             event.stopPropagation();
             deleteEvent(id);
             handleDelete();
+            updateEventsApp();
           }}
         >
           <span className='delete-event-btn__text'>Delete 🗑</span>
@@ -37,6 +49,22 @@ const Event = ({ height, marginTop, title, time, deleteEvent, id }) => {
       )}
     </div>
   ) : null;
+};
+
+Event.propTypes = {
+  title: PropTypes.string,
+  marginTop: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  deleteEvent: PropTypes.func.isRequired,
+  time: PropTypes.string,
+};
+
+Event.defaultProps = {
+  title: 'Here should be a title...',
+  time: `${new Date().getHours()}:${formatMins(
+    new Date().getMinutes()
+  )} - ${new Date().getHours()}:${formatMins(new Date().getMinutes())}`,
 };
 
 export default Event;

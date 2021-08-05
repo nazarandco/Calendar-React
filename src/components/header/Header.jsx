@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Modal from '../modal/Modal.jsx';
+import PropTypes from 'prop-types';
 
-import { months, getMonth } from '../../utils/dateUtils.js';
+import { months, getCurrentMonth } from '../../utils/dateUtils.js';
 
 import './header.scss';
 
@@ -10,7 +11,12 @@ const Header = ({
   getCurrentWeek,
   getPreviousWeek,
   getNextWeek,
+  weekStartDate,
+  updateEventsApp,
 }) => {
+  const [currentMonth, setCurrentMonth] = useState(
+    getCurrentMonth(months, new Date())
+  );
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
@@ -26,31 +32,49 @@ const Header = ({
         <Modal
           handleModalClose={() => setModalOpen(false)}
           postNewEvent={postNewEvent}
+          updateEventsApp={updateEventsApp}
         />
       )}
       <div className='navigation'>
         <button
           className='navigation__today-btn button'
-          onClick={getCurrentWeek}
+          onClick={() => {
+            getCurrentWeek();
+            setCurrentMonth(getCurrentMonth(months, new Date()));
+          }}
         >
           Today
         </button>
         <button
           className='icon-button navigation__nav-icon'
-          onClick={getPreviousWeek}
+          onClick={() => {
+            getPreviousWeek();
+            setCurrentMonth(getCurrentMonth(months, new Date(weekStartDate)));
+          }}
         >
           <i className='fas fa-chevron-left'></i>
         </button>
         <button
           className='icon-button navigation__nav-icon'
-          onClick={getNextWeek}
+          onClick={() => {
+            getNextWeek();
+            setCurrentMonth(getCurrentMonth(months, new Date(weekStartDate)));
+          }}
         >
           <i className='fas fa-chevron-right'></i>
         </button>
-        <span className='navigation__displayed-month'>{getMonth(months)}</span>
+        <span className='navigation__displayed-month'>{currentMonth}</span>
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  postNewEvent: PropTypes.func.isRequired,
+  getCurrentWeek: PropTypes.func.isRequired,
+  getPreviousWeek: PropTypes.func.isRequired,
+  getNextWeek: PropTypes.func.isRequired,
+  weekStartDate: PropTypes.object.isRequired,
 };
 
 export default Header;
