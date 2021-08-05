@@ -35,8 +35,16 @@ const App = () => {
   };
 
   const deleteEventFromApp = (id) => {
-    setEvents(events.filter((event) => event.id !== id));
-    deleteEvent(id).then(() => pageUpdater());
+    const eventToDelete = events.find((event) => event.id === id);
+    if (
+      eventToDelete.dateFrom >= new Date().getTime() &&
+      eventToDelete.dateFrom - 15 * 60 * 1000 <= new Date().getTime()
+    ) {
+      alert(`Sorry, we can't cancel event in 15 minutes to start!`);
+    } else {
+      setEvents(events.filter((event) => event.id !== id));
+      deleteEvent(id).then(() => pageUpdater());
+    }
   };
 
   const postNewEventInApp = ({ dateFrom, dateTo, title }) => {
