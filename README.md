@@ -1,6 +1,6 @@
 # Calendar-React
 
-### [Github](https://github.com/nazarandco/Calendar-React)
+### [Github](https://nazarandco.github.io/Calendar-React/)
 ### [Netlify](https://boring-blackwell-f947d5.netlify.app)
 
 Layout supports desktop (starting with-1400) versions
