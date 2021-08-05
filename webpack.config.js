@@ -5,53 +5,54 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = (env, argv) => {
-    const isProduction = argv.mode === 'production';
-    const config = {
-        entry: './src/index.jsx',
-        output: {
-            filename: 'bundle.js',
-            path: path.join(__dirname, 'build')
+  const isProduction = argv.mode === 'production';
+  const config = {
+    entry: './src/index.jsx',
+    output: {
+      filename: 'bundle.js',
+      path: path.join(__dirname, 'build'),
+    },
+    module: {
+      rules: [
+        {
+          test: /.jsx?$/,
+          use: ['babel-loader'],
         },
-        module: {
-            rules: [
-                {
-                    test: /.jsx?$/,
-                    use: ['babel-loader'],
-                },
-                {
-                    test: /.s?css$/,
-                    use: [
-                        isProduction
-                            ? MiniCssExtractPlugin.loader
-                            : 'style-loader',
-                        'css-loader',
-                        'sass-loader',
-                    ],
-                },
-            ],
+        {
+          test: /.s?css$/,
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+            'sass-loader',
+          ],
         },
-        resolve: {
-            extensions: ['.js', '.jsx'],
-        },
-        plugins: [
-            new webpack.ProgressPlugin(),
-            new CleanWebpackPlugin(),
-            new HtmlWebpackPlugin({
-                template: './src/index.html',
-            }),
-        ],
-        devServer: {
-            hot: true,
-        },
-    };
+      ],
+    },
+    resolve: {
+      extensions: ['.js', '.jsx'],
+    },
+    plugins: [
+      new webpack.ProgressPlugin(),
+      new CleanWebpackPlugin(),
+      new HtmlWebpackPlugin({
+        template: './src/index.html',
+      }),
+      new CopyPlugin({
+        patterns: [{ from: '_redirects', to: '' }],
+      }),
+    ],
+    devServer: {
+      hot: true,
+    },
+  };
 
-    if (isProduction) {
-        config.plugins.push(
-            new MiniCssExtractPlugin({
-                filename: '[name].css',
-            }),
-        );
-    }
+  if (isProduction) {
+    config.plugins.push(
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+      })
+    );
+  }
 
-    return config;
+  return config;
 };
