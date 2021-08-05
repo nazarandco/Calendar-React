@@ -7,7 +7,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "build": "webpack --mode=production",
-    "start": "webpack serve --open",
+    "start": "webpack serve --open --devtool eval-source-map",
     "lint": "eslint src"
   },
   "keywords": [],
